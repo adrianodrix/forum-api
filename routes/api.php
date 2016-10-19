@@ -24,12 +24,18 @@ app('router')->group([], function() {
         'as' => 'auth.signin',
         'uses' => 'AuthController@signin'
     ]);
+
+    app('router')->get('/sections', [
+        'as' => 'sections.index',
+        'uses' => 'Forum\SectionController@index'
+    ]);
 });
 
 
 //Private Routes
 app('router')->group(['middleware' => ['auth:api']], function() {
-    app('router')->get('/auth/user', function (Request $request) {
-        return $request->user();
-    });
+    app('router')->get('/auth/user', [
+        'as' => 'user.index',
+        'uses' => 'UserController@index',
+    ]);
 });

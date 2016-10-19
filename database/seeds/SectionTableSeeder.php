@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class SectionTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(SectionTableSeeder::class);
+        \DB::table('sections')->truncate();
+        factory(\Forum\Models\Section::class, 10)->create();
     }
 }

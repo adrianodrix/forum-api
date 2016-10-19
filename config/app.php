@@ -166,7 +166,9 @@ return [
         /*
          * Package Service Providers...
          */
-        \Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        Spatie\Fractal\FractalServiceProvider::class,
+
 
         //
 
