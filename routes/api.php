@@ -25,10 +25,8 @@ app('router')->group([], function() {
         'uses' => 'AuthController@signin'
     ]);
 
-    app('router')->get('/sections', [
-        'as' => 'sections.index',
-        'uses' => 'Forum\SectionController@index'
-    ]);
+    app('router')->resource('section', 'Forum\SectionController', ['only' => ['index']]);
+    app('router')->resource('topic', 'Forum\TopicController', ['only' => ['index', 'show']]);
 });
 
 
@@ -38,4 +36,11 @@ app('router')->group(['middleware' => ['auth:api']], function() {
         'as' => 'user.index',
         'uses' => 'UserController@index',
     ]);
+
+    app('router')->post('/topic/{topic}/post', [
+        'as' => 'topic.post',
+        'uses' => 'Forum\PostController@store',
+    ]);
+
+    app('router')->resource('topic', 'Forum\TopicController', ['only' => ['store']]);
 });

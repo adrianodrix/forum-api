@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Forum\Http\Requests;
 use Forum\Http\Requests\Auth\RegisterFormRequest;
 use Forum\Models\User;
+use Forum\Transformers\UserTransformer;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -56,8 +57,16 @@ class AuthController extends Controller
             // something went wrong whilst attempting to encode the token
             return response()->json(['error' => app('translator')->get('auth.could_not_create_token')], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+
         // all good so return the token
-        return response()->json(compact('token'), Response::HTTP_OK);
+        return response()->json(fractal()
+            ->item($request->user())
+            ->transformWith(new UserTransformer())
+            ->addMeta([
+                'token' => $token,
+            ])
+            ->toArray(),
+            Response::HTTP_OK);
     }
 
     /**

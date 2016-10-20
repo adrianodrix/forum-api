@@ -52,4 +52,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return 'http://www.gravatar.com/avatar/'. md5($this->email) .'?s=35&d=mm';
     }
+
+    public function topics()
+    {
+        return $this->hasMany(Topic::class);
+    }
 }
