@@ -18,11 +18,24 @@ class AuthController extends Controller
 
     public function signUp(RegisterFormRequest $request)
     {
-        return User::create([
+        $user = User::create([
             'username' => $request->input('username'),
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
         ]);
+
+	// attempt to verify the credentials and create a token for the user
+        $token = app('tymon.jwt.auth')->fromUser($user);
+
+        // all good so return the token
+        return response()->json(fractal()
+            ->item($user)
+            ->transformWith(new UserTransformer())
+            ->addMeta([
+                'token' => $token,
+            ])
+            ->toArray(),
+            Response::HTTP_OK);
     }
 
     /**

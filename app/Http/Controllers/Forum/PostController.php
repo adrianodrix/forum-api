@@ -14,7 +14,7 @@ class PostController extends Controller
     {
         $post = $topic->posts()->create([
             'user_id' => $request->user()->id,
-            'body' => $request->json('body'),
+            'body' => $request->get('body'),
         ]);
 
         return response()->json(
